@@ -28,7 +28,7 @@ jobs:
     - name: Set up Julia
       uses: julia-actions/setup-julia@v2
       with:
-        version: '1.9' # Change to your desired Julia version
+        version: '1.11.4' # Change to your desired Julia version
 
     - name: Install dependencies
       run: julia -e 'using Pkg; Pkg.instantiate()'
