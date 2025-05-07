@@ -15,13 +15,15 @@ using Optim
 using Statistics
 using NearestNeighbors
 using Meshes
-using Plots
+using GLMakie
 
 # utils
 include("utils.jl")
+include("simple_crack_problems.jl")
 
-# Mesh API
+# External API
 include("mesh_api.jl")
+include("inti_api.jl")
 
 # pre-processing
 include("pre_processor.jl")
@@ -33,7 +35,7 @@ include("solver.jl")
 # post-processing, visualization
 include("graphic.jl")
 
-# api
+# Internal API
 include("api.jl")
 
 @info "CrackFastBEM successfully loaded!"

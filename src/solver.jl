@@ -78,7 +78,7 @@ function nodal_scalar_field_in_XY_plane_from_polar_function(nodes::Vector{SVecto
 	return res
 end
 
-function solve_static!(p::CrackProblem, meshsize; qorder = 2)
+function solve_static!(p::CrackProblem; qorder = 2, weight_function = CrackFastBEM.create_weight_function(p, rtol = 0.01, threshold_inf = 0.1, threshold_sup = 0.2))
 	@info "Solving static problem..."
 	@info "$(p)"
 	# Extract material properties
@@ -103,10 +103,7 @@ function solve_static!(p::CrackProblem, meshsize; qorder = 2)
 
 	front_nodes = p.crack_front_node
 	front_nodes_idxs = p.crack_front_node_id
-	# w = create_weight_function(p; rtol = meshsize, threshold_inf = 2 * meshsize, threshold_sup = 4 * meshsize)
-	# w = old_create_weight_function(p, front_nodes, front_nodes_idxs; treshold_inf = 2 * meshsize, treshold_sup = 4 * meshsize)
-	w = create_custom_weight_function(; d_inf = 2 * meshsize, d_sup = 4 * meshsize)
-	crack_kernel = CrackKernel(elastic_kernel, w)
+	crack_kernel = CrackKernel(elastic_kernel, weight_function)
 
 	# crack_kernel = (source, target) -> begin
 	# x, y = Inti.coords(source), Inti.coords(target)

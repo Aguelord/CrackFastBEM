@@ -14,6 +14,6 @@ end
 	include("test_frenet_frames.jl")
 end
 
-@testset "General tests" begin
-	include("test_inti_for_cracks.jl")
+@testset "Tests simple problems" begin
+	include("test_simple_problems.jl")
 end

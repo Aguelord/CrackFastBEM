@@ -55,10 +55,21 @@ function create_weight_function(p::CrackProblem; rtol, threshold_inf = 0.1, thre
 end
 
 function create_custom_weight_function(; d_inf, d_sup)
-	a = b = 1
 	return (source, target) -> begin
 		a = 2.0
 		b = 1.0
+		x, y = Inti.coords(source), Inti.coords(target)
+		d = ((a * b) / (sqrt(b^2 * y[1]^2 + a^2 * y[2]^2)) - 1) * (b^2 * y[1]^2 + a^2 * y[2]^2) / (sqrt(b^4 * y[1]^2 + a^4 * y[2]^2))
+		if d < 0
+			d = 0.0
+		end
+		f = smoothing_function(d, d_inf, d_sup)
+		return (sqrt(d) * f + (1 - f))::Float64
+	end
+end
+
+function create_elliptic_weight_function(a, b; d_inf, d_sup)
+	return (source, target) -> begin
 		x, y = Inti.coords(source), Inti.coords(target)
 		d = ((a * b) / (sqrt(b^2 * y[1]^2 + a^2 * y[2]^2)) - 1) * (b^2 * y[1]^2 + a^2 * y[2]^2) / (sqrt(b^4 * y[1]^2 + a^4 * y[2]^2))
 		if d < 0
