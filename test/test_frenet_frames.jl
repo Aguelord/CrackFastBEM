@@ -1,5 +1,4 @@
 using Test
-using Revise
 using CrackFastBEM
 using Inti, Gmsh
 using StaticArrays
