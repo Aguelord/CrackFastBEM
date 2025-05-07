@@ -33,5 +33,10 @@ jobs:
     - name: Install dependencies
       run: julia -e 'using Pkg; Pkg.instantiate()'
 
-    - name: Run tests
-      run: julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Julia package tests
+        uses: julia-actions/julia-runtest@v1.11.2
+        with:
+          prefix: xvfb-run -s '-screen 0 1024x768x24'
