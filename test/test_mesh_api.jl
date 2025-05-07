@@ -2,6 +2,7 @@ using Test
 using Inti, Gmsh
 using CrackFastBEM
 using StaticArrays
+using LinearAlgebra
 
 @testset "Mesh nodes to quadrature nodes extrapolation" begin
 	meshsize = 0.5
