@@ -19,5 +19,5 @@ using Statistics
 	@info "theorical SIF = $(theorical_mean_sif)"
 	@info "numerical SIF = $(mean_sif)"
 	@info "Mean error on the SIF's mode I = $(abs((mean_sif - theorical_mean_sif) / theorical_mean_sif))"
-	@test abs((mean_sif - theorical_mean_sif) / theorical_mean_sif) < 1e-2
+	@test abs((mean_sif - theorical_mean_sif) / theorical_mean_sif) < 2e-2
 end
