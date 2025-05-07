@@ -1,6 +1,7 @@
 using Test
 using Inti, Gmsh
 using CrackFastBEM
+using StaticArrays
 
 @testset "Mesh nodes to quadrature nodes extrapolation" begin
 	meshsize = 0.5
