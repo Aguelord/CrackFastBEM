@@ -22,21 +22,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Julia
-      uses: julia-actions/setup-julia@v2
-      with:
-        version: '1.11' # Change to your desired Julia version
-
-    - name: Install dependencies
-      run: julia -e 'using Pkg; Pkg.instantiate()'
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Julia package tests
-        uses: julia-actions/julia-runtest@v1.11.2
+      - uses: actions/checkout@v3
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: julia-actions/cache@v1
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
         with:
           prefix: xvfb-run -s '-screen 0 1024x768x24'
