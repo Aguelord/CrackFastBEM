@@ -15,6 +15,9 @@ using Statistics
 		SIFs = p.SIFs
 		mean_sif = mean([SIFs[i][1] for i in keys(SIFs)])
 		theorical_mean_sif = 2 / sqrt(π)
+		@info "theorical SIF = $(theorical_mean_sif)"
+		@info "numerical SIF = $(mean_sif)"
+		@info "Mean error on the SIF's mode I = $(abs((mean_sif - theorical_mean_sif) / theorical_mean_sif))"
 		@test abs((mean_sif - theorical_mean_sif) / theorical_mean_sif) < 1e-2
 	end
 end
