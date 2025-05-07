@@ -217,7 +217,7 @@ function ordered_border_edges(
 )::Dict{DataType, Dict{Vector{Int}, Int}}
 
 	# Étape 1 — Fusionner les arêtes non orientées avec leur type et id
-	merged_edges = Dict{CrackBEM.Edge{Int}, Tuple{DataType, Int}}()
+	merged_edges = Dict{Edge{Int}, Tuple{DataType, Int}}()
 	for (etype, edge_dict) in raw_edges
 		for (edge, el_id) in edge_dict
 			merged_edges[edge] = (etype, el_id)
@@ -225,14 +225,14 @@ function ordered_border_edges(
 	end
 
 	# Étape 2 — Construire la connectivité noeud → arêtes
-	conn = Dict{Int, Vector{CrackBEM.Edge{Int}}}()
+	conn = Dict{Int, Vector{Edge{Int}}}()
 	for edge in keys(merged_edges)
 		for node in edge.nodes
-			push!(get!(conn, node, Vector{CrackBEM.Edge{Int}}()), edge)
+			push!(get!(conn, node, Vector{Edge{Int}}()), edge)
 		end
 	end
 
-	function is_true_endpoint(node::Int, edges::Vector{CrackBEM.Edge{Int}})
+	function is_true_endpoint(node::Int, edges::Vector{Edge{Int}})
 		length(edges) == 1 || return false  # relié à une seule arête
 		edge = edges[1]
 		nodes = edge.nodes
@@ -240,7 +240,7 @@ function ordered_border_edges(
 	end
 
 	# Calcul des "vrais" points d'extrémité
-	endpoints = Dict{Int, Vector{CrackBEM.Edge{Int}}}()
+	endpoints = Dict{Int, Vector{Edge{Int}}}()
 	for (node, edges) in conn
 		if is_true_endpoint(node, edges)
 			endpoints[node] = edges
@@ -261,7 +261,7 @@ function ordered_border_edges(
 	current_nodes = start_edge.nodes
 	start_node = current_nodes[1]
 	path = [(start_node, current_nodes[2])]
-	visited = Set{CrackBEM.Edge{Int}}([start_edge])
+	visited = Set{Edge{Int}}([start_edge])
 	current_node = current_nodes[2]
 
 	if !isempty(endpoints)
@@ -283,7 +283,7 @@ function ordered_border_edges(
 		oriented_nodes = nodes
 	end
 
-	visited = Set{CrackBEM.Edge{Int}}([start_edge])
+	visited = Set{Edge{Int}}([start_edge])
 	path = [Tuple(oriented_nodes)]  # stocké sous forme de tuple orienté
 
 	# Étape 4 — Suivre la chaîne
@@ -560,7 +560,7 @@ function frenet_frame_from_node_id(Γ_msh::Inti.Mesh, crack_front_edges::Dict{Da
 	τ = mean(collect(values(τs)))
 	n = mean(collect(values(ns)))
 	ν = mean(collect(values(νs)))
-	return CrackBEM.Frame(node, n, ν, τ)
+	return Frame(node, n, ν, τ)
 end
 
 """
